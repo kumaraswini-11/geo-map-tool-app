@@ -40,10 +40,11 @@ Contributions are welcome! Feel free to open an issue or submit a pull request f
 
 ## Next Plans
 
-- Add additional features such as:
-  - Support for custom map layers
-  - Exporting measurements as files
-  - Improved styling and user interface enhancements
+- Introduce custom map layers for personalized map views.
+- Implement location search functionality for easy discovery.
+- Enable automatic user location detection for enhanced navigation.
+- Provide user-controlled personalization options.
+- Revamp UI for a visually appealing experience.
 
 ## License
 
