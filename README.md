@@ -1,36 +1,50 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# MeasureMap App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The MeasureMap app is a web-based tool designed for geospatial measurement and visualization. It allows users to draw and measure various geometrical shapes on an interactive map interface.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The MeasureMap app is deployed and can be accessed at [geo-map-tool-app.vercel.app](https://geo-map-tool-app.vercel.app/).
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Draw and measure point, line, polygon, and circle geometries
+- Dynamically fetch location details based on drawn points
+- Interactive map interface with zoom and pan functionalities
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Technologies Used
 
-## Learn More
+- **Next.js**: Framework for building React applications with server-side rendering and TypeScript support
+- **OpenLayers**: Used for rendering interactive maps and handling geometries
+- **React**: Frontend library for building the user interface
+- **Tailwind CSS**: Utility-first CSS framework for styling
+- **Axios**: HTTP client for making API requests
+- **TypeScript**: Superset of JavaScript providing static typing
 
-To learn more about Next.js, take a look at the following resources:
+## Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Clone the repository: `git clone https://github.com/your-username/measure-map.git`
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
+4. Open your browser and navigate to `http://localhost:3000`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Usage
 
-## Deploy on Vercel
+1. Select a geometry type (Point, LineString, Polygon, Circle) from the dropdown menu.
+2. Click on the map to draw the selected geometry.
+3. Measurements will be displayed dynamically on the map.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contributions are welcome! Feel free to open an issue or submit a pull request for any improvements or bug fixes.
+
+## Next Plans
+
+- Add additional features such as:
+  - Support for custom map layers
+  - Exporting measurements as files
+  - Improved styling and user interface enhancements
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
