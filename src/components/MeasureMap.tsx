@@ -25,28 +25,32 @@ import { Geometry, LineString, Point, Polygon, Circle } from "ol/geom";
 import { OSM, Vector as VectorSource } from "ol/source";
 import { Tile as TileLayer, Vector as VectorLayer } from "ol/layer";
 import { getWidth, getHeight, getCenter } from "ol/extent.js";
-import {baseStyle, labelStyle} from "../utils/style.util"
-import {formatLength,formatArea,formatPerimeter,formatAreaCircle} from "../utils/format.util"
+import { baseStyle, labelStyle } from "../utils/style.util";
+import { formatLength, formatArea, formatPerimeter, formatAreaCircle } from "../utils/format.util";
 import { fetchLocationDetails } from "@/utils/geolocation.util";
 
 const MeasureMap: React.FC = () => {
+  // Refs for holding map, vector source, draw interaction, and modify interaction
   const mapRef = useRef<Map | null>(null);
   const sourceRef = useRef<VectorSource>(new VectorSource());
   const drawInteractionRef = useRef<Draw | null>(null);
   const modifyInteractionRef = useRef<Modify | null>(null);
 
+  // Coordinates for India
   const indiaCoordinates = fromLonLat([78.9629, 20.5937]);
 
+  // Effect to initialize the map
   useEffect(() => {
+    // Create raster and vector layers
     const rasterLayer = new TileLayer({
       source: new OSM(),
     });
-
     const vectorLayer = new VectorLayer({
       source: sourceRef.current,
       style: styleFunction,
     });
 
+    // Create map instance
     const map = new Map({
       controls: defaultControls({ attribution: false }).extend([
         new FullScreen(),
@@ -65,12 +69,15 @@ const MeasureMap: React.FC = () => {
       }),
     });
 
+    // Assign map instance to ref
     mapRef.current = map;
 
+    // Create and add modify interaction to the map
     const modifyInteraction = new Modify({ source: sourceRef.current });
     map.addInteraction(modifyInteraction);
     modifyInteractionRef.current = modifyInteraction;
 
+    // Cleanup function
     return () => {
       map.removeInteraction(modifyInteraction);
       if (drawInteractionRef.current) {
@@ -80,6 +87,7 @@ const MeasureMap: React.FC = () => {
     };
   }, []);
 
+  // Function to add draw interaction based on drawType
   const addDrawInteraction = (drawType: string) => {
     const map = mapRef.current;
     const modifyInteraction = modifyInteractionRef.current;
@@ -119,7 +127,8 @@ const MeasureMap: React.FC = () => {
       modifyInteraction.setActive(drawType === "None");
     }
   };
- 
+
+  // Function to fetch location details and add label asynchronously
   // const fetchLocationAndAddLabel = async (point: Point, label: string) => {
   //   const coordinates = point.getCoordinates();
   //   try {
@@ -131,49 +140,51 @@ const MeasureMap: React.FC = () => {
   //   }
   // };
 
-  const styleFunction =  (feature: any) => {
+  // Function to define style based on feature geometry type
+  const styleFunction = (feature: any) => {
     const styles: Style[] = [];
     const geometry: Geometry = feature.getGeometry();
     const type: string = geometry.getType();
     let label: string | undefined, point: Point | undefined, line: LineString | undefined;
 
     if (type === "Polygon") {
-        point = new Point((geometry as Polygon).getInteriorPoint().getCoordinates());
-        label = `Area :: ${formatArea((geometry as Polygon).getArea())}`;
-        line = new LineString((geometry as Polygon).getCoordinates()[0]);
+      point = new Point((geometry as Polygon).getInteriorPoint().getCoordinates());
+      label = `Area :: ${formatArea((geometry as Polygon).getArea())}`;
+      line = new LineString((geometry as Polygon).getCoordinates()[0]);
     } else if (type === "LineString") {
-        point = new Point((geometry as LineString).getLastCoordinate());
-        label = `Distance :: ${formatLength((geometry as LineString).getLength())}`;
-        line = geometry as LineString;
+      point = new Point((geometry as LineString).getLastCoordinate());
+      label = `Distance :: ${formatLength((geometry as LineString).getLength())}`;
+      line = geometry as LineString;
     } else if (type === "Point") {
-        point = geometry as Point;
-        const coordinates = point.getCoordinates();
-        label = `Coordinates :: [${coordinates.join(", ")}]`;
-        // Call the asynchronous function and handle the returned label
-        // fetchLocationAndAddLabel(point, label).then((x) => label = x)
+      point = geometry as Point;
+      const coordinates = point.getCoordinates();
+      label = `Coordinates :: [${coordinates.join(", ")}]`;
+      // Call the asynchronous function and handle the returned label
+      // fetchLocationAndAddLabel(point, label).then((x) => label = x)
     } else if (type === "Circle") {
       const circle = geometry as Circle;
       const radiusKm = circle.getRadius() / 1000; // Convert radius to kilometers
       point = new Point(circle.getCenter());
       label = `Radius :: ${radiusKm.toFixed(2)} km\nArea :: ${formatAreaCircle(radiusKm)}\nPerimeter :: ${formatPerimeter(radiusKm)}`;
-  
     }
 
     if (label && point) {
-        styles.push(labelStyle(point, label));
+      styles.push(labelStyle(point, label));
     }
 
     styles.push(baseStyle());
 
     return styles;
-};
+  };
 
+  // Function to handle change in geometry type selection
   const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSelectedType(value);
     addDrawInteraction(value);
   };
 
+  // State for selected geometry type
   const [selectedType, setSelectedType] = useState<string>("None");
 
   return (

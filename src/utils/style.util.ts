@@ -1,6 +1,7 @@
 import { Style, Text, Fill, RegularShape, Circle as CircleStyle, Stroke } from 'ol/style';
 import { Point } from 'ol/geom';
 
+// Function to define base style for features
 export const baseStyle = () => {
     return new Style({
         fill: new Fill({
@@ -23,6 +24,7 @@ export const baseStyle = () => {
     });
 };
 
+// Function to define style for labeled features
 export const labelStyle = (point: Point, label: string) => {
     const textStyle = new Text({
         font: "14px Calibri,sans-serif",
@@ -53,19 +55,18 @@ export const labelStyle = (point: Point, label: string) => {
     });
 };
 
-
-// export const segmentStyle = new Style({
-//   text: new Text({
-//     font: "14px Calibri,sans-serif",
-//     fill: new Fill({
-//       color: "rgba(255, 255, 255, 1)",
-//     }),
-//     backgroundFill: new Fill({
-//       color: "rgba(0, 0, 0, 0.7)",
-//     }),
-//     padding: [3, 3, 3, 3],
-//     textBaseline: "bottom",
-//     offsetY: -15,
-//   }),
-// });
-
+// Style for segments (not currently used in the main component)
+export const segmentStyle = new Style({
+  text: new Text({
+    font: "14px Calibri,sans-serif",
+    fill: new Fill({
+      color: "rgba(255, 255, 255, 1)",
+    }),
+    backgroundFill: new Fill({
+      color: "rgba(0, 0, 0, 0.7)",
+    }),
+    padding: [3, 3, 3, 3],
+    textBaseline: "bottom",
+    offsetY: -15,
+  }),
+});
