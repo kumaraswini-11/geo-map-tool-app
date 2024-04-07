@@ -31,3 +31,7 @@ body {
     text-wrap: balance;
   }
 }
+
+#map .ol-rotate {
+  top: 3em;
+}
